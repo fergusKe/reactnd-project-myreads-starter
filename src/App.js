@@ -25,6 +25,19 @@ class BooksApp extends React.Component {
 				})
 			})
 	}
+
+	changeShelf = (shelf, book) => {
+		if (shelf !== book.shelf && shelf !== 'none') {
+			const books = this.state.books.map((b) => {
+				if (b === book) {
+					b.shelf = shelf
+				}
+				return b
+			})
+
+			this.setState({ books })
+		}
+	}
 	
   render() {
 		const { books } = this.state
@@ -34,7 +47,10 @@ class BooksApp extends React.Component {
         {this.state.showSearchPage ? (
           <SearchBooks />
         ) : (
-          <ListBooks books={books} />
+					<ListBooks
+						books={books}
+						changeShelf={this.changeShelf}
+					/>
         )}
       </div>
     )

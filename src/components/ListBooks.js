@@ -7,38 +7,28 @@ class ListBooks extends Component {
 		books: PropTypes.array.isRequired,
 	}
 
-	state = {
-		books: [],
-		currentlyReading: [],
-		wantToRead: [],
-		read: [],
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.books !== this.state.books) {
-			let shelfObj = {}
-	
-			nextProps.books.map((book, i, arr) => {
-				if (!shelfObj[book.shelf]) {
-					shelfObj[book.shelf] = []
-				}
-
-				shelfObj[book.shelf].push(book)
-	
-				if (i === arr.length - 1) {
-					this.setState({
-						books: nextProps.books,
-						currentlyReading: shelfObj.currentlyReading,
-						wantToRead: shelfObj.wantToRead,
-						read: shelfObj.read
-					})
-				}
-			})
-		}
-	}
-
 	render() {
-		const { currentlyReading, wantToRead, read } = this.state
+		const { books, changeShelf } = this.props
+		const currentlyReading = []
+		const wantToRead = []
+		const read = []
+
+		books.map((book) => {
+			switch (book.shelf) {
+				case 'currentlyReading':
+					currentlyReading.push(book)
+					break
+				case 'wantToRead':
+					wantToRead.push(book)
+					break
+				case 'read':
+					read.push(book)
+					break
+				default:
+			}
+
+			return book
+		})
 
 		return (
 			<div className="list-books">
@@ -47,9 +37,9 @@ class ListBooks extends Component {
 				</div>
 				<div className="list-books-content">
 					<div>
-						<Bookshelf title="Currently Reading" books={currentlyReading} />
-						<Bookshelf title="Want to Read" books={wantToRead} />
-						<Bookshelf title="Read" books={read} />
+						<Bookshelf title="Currently Reading" books={currentlyReading} changeShelf={changeShelf} />
+						<Bookshelf title="Want to Read" books={wantToRead} changeShelf={changeShelf} />
+						<Bookshelf title="Read" books={read} changeShelf={changeShelf} />
 					</div>
 				</div>
 				<div className="open-search">
