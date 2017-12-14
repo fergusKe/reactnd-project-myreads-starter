@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faPlus, faSearch } from '@fortawesome/fontawesome-free-solid'
 import Bookshelf from './Bookshelf'
 
 class ListBooks extends Component {
@@ -43,8 +46,15 @@ class ListBooks extends Component {
 					</div>
 				</div>
 				<div className="open-search">
-					<a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-				</div>
+          <Link to="/search">
+            <FontAwesomeIcon icon={faSearch} />
+          </Link>
+        </div>
+        <div className="open-cerate">
+          <Link to="/create">
+            <FontAwesomeIcon icon={faPlus} />
+          </Link>
+        </div>
 			</div>
 		)
 	}

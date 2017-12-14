@@ -46,7 +46,7 @@ body, .app {
 .open-search {
   position: fixed;
   right: 25px;
-  bottom: 25px;
+  bottom: 88px;
 }
 .open-search a {
   display: block;
@@ -54,12 +54,41 @@ body, .app {
   height: 50px;
   border-radius: 50%;
   background: #2e7d32;
-  background-image: url('./icons/add.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 28px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  font-size: 0;
+}
+.open-search a svg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  color: #FFF;
+  font-size: 22px;
+}
+
+.open-cerate {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+}
+.open-cerate a {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #2e7d32;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.open-cerate a svg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  color: #FFF;
+  font-size: 22px;
 }
 
 /* search page */
