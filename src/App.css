@@ -161,6 +161,10 @@ body, .app {
 .book-authors {
   color: #999;
 }
+.book-authors .name:after {
+  content: '\a';
+  white-space: pre;
+}
 
 .book-top {
   position: relative;
