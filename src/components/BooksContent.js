@@ -5,11 +5,12 @@ import Bookshelf from './Bookshelf'
 class BooksContent extends Component {
   static propTypes = {
     books: PropTypes.array.isRequired,
+    query: PropTypes.string.isRequired,
     changeShelf: PropTypes.func.isRequired,
   }
 
   render() {
-    const { books, changeShelf } = this.props
+    const { books, query, changeShelf } = this.props
 		const currentlyReading = []
 		const wantToRead = []
 		const read = []
@@ -32,9 +33,9 @@ class BooksContent extends Component {
     return (
       <div className="list-books-content">
         <div>
-          <Bookshelf title="Currently Reading" books={currentlyReading} changeShelf={changeShelf} />
-          <Bookshelf title="Want to Read" books={wantToRead} changeShelf={changeShelf} />
-          <Bookshelf title="Read" books={read} changeShelf={changeShelf} />
+          <Bookshelf title="Currently Reading" books={currentlyReading} query={query} changeShelf={changeShelf} />
+          <Bookshelf title="Want to Read" books={wantToRead} query={query} changeShelf={changeShelf} />
+          <Bookshelf title="Read" books={read} query={query} changeShelf={changeShelf} />
         </div>
       </div>
     )

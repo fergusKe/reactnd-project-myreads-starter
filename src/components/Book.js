@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Highlighter from 'react-highlight-words'
 
 class Book extends Component {
   static propTypes = {
     book: PropTypes.object.isRequired,
+    query: PropTypes.string.isRequired,
     changeShelf: PropTypes.func.isRequired,
   }
 
   render() {
-    const { book, changeShelf } = this.props
+    const { book, query, changeShelf } = this.props
 
     return (
       <li>
@@ -25,11 +27,23 @@ class Book extends Component {
               </select>
             </div>
           </div>
-          <div className="book-title">{book.title}</div>
+          <div className="book-title">
+            <Highlighter
+              searchWords={[query]}
+              autoEscape={true}
+              textToHighlight={book.title}
+            />
+          </div>
           <div className="book-authors">
             {
               book.authors.map((name) => (
-                <span key={name} className="name">{name}</span>
+                <Highlighter
+                  key={name}
+                  className="name"
+                  searchWords={[query]}
+                  autoEscape={true}
+                  textToHighlight={name}
+                />
               ))
             }
           </div>
