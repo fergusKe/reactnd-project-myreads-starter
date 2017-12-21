@@ -4,11 +4,11 @@ import SearchBooks from './components/SearchBooks'
 import ListBooks from './components/ListBooks'
 import CreateBook from './components/CreateBook'
 import * as BooksAPI from './utils/BooksAPI'
-import './App.css'
+import './stylesheet/App.css'
 
 class BooksApp extends React.Component {
   state = {
-		books: [],
+    books: []
 	}
 
 	componentDidMount() {
@@ -22,7 +22,9 @@ class BooksApp extends React.Component {
 	}
 
 	changeShelf = (shelf, book) => {
-		if (shelf !== book.shelf && shelf !== 'none') {
+    if (shelf === 'delete') {
+      // this.toggle()
+    } else if (shelf !== book.shelf && shelf !== 'none') {
 			const books = this.state.books.map((b) => {
 				if (b === book) {
 					b.shelf = shelf
@@ -39,6 +41,13 @@ class BooksApp extends React.Component {
       books: state.books.concat(book)
     }))
   }
+
+  // toggle = () => {
+  //   console.log('handleModal')
+  //   this.setState({
+  //     modal: !this.state.modal
+  //   })
+  // }
 
   render() {
     const { books } = this.state
