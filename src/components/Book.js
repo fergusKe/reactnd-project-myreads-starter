@@ -5,7 +5,7 @@ import Highlighter from 'react-highlight-words'
 class Book extends Component {
   static propTypes = {
     book: PropTypes.object.isRequired,
-    query: PropTypes.string.isRequired,
+    query: PropTypes.string,
     changeShelf: PropTypes.func.isRequired,
   }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import SearchBooks from './components/SearchBooks'
 import ListBooks from './components/ListBooks'
+import CreateBook from './components/CreateBook'
 import * as BooksAPI from './utils/BooksAPI'
 import './App.css'
 
@@ -31,10 +32,16 @@ class BooksApp extends React.Component {
 
 			this.setState({ books })
 		}
-	}
+  }
+
+  createBook = (book) => {
+    this.setState(state => ({
+      books: state.books.concat(book)
+    }))
+  }
 
   render() {
-		const { books } = this.state
+    const { books } = this.state
 
     return (
       <div className="app">
@@ -48,6 +55,14 @@ class BooksApp extends React.Component {
           <SearchBooks
             books={books}
             changeShelf={this.changeShelf}
+          />
+        )} />
+        <Route path="/create" render={({ history }) => (
+          <CreateBook
+            createBook={(book) => {
+              this.createBook(book)
+              history.push('/')
+            }}
           />
         )} />
       </div>

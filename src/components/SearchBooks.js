@@ -39,31 +39,6 @@ class SearchBooks extends Component {
         })
 
         return isMatch
-      }).map((book) => {
-        // let regex = new RegExp(query, 'i')
-        // let match = book['title'].match(regex)
-        // console.log('match = ', match)
-
-        // if (match) {
-        //   let title = book['title'].replace(regex, `<span className="highlight">${match[0]}</span>`)
-        //   return {
-        //     ...book,
-        //     title
-        //   }
-        // }
-
-        // const field = ['title', 'authors']
-        // field.forEach((f) => {
-        //   let regex = new RegExp(query, 'i')
-        //   console.log('book[f] = ', book[f])
-        //   if (book[f] instanceof Array) {
-
-        //   }
-        //   let match = book[f].match(regex)
-        //   console.log('book[f] = ', book[f])
-        // })
-
-        return book
       })
     } else {
       showingBooks = books

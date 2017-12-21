@@ -4,6 +4,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.1",
     "@fortawesome/react-fontawesome": "0.0.16",
     "escape-string-regexp": "^1.0.5",
+    "form-serialize": "^0.7.2",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
