@@ -11,20 +11,13 @@ class ListBooks extends Component {
 	static propTypes = {
     books: PropTypes.array.isRequired,
     changeShelf: PropTypes.func.isRequired,
-  }
-
-  state = {
-    model: false
-  }
-
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    })
+    modal: PropTypes.bool.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    deleteBook: PropTypes.func.isRequired,
   }
 
 	render() {
-    const { books, changeShelf } = this.props
+    const { books, changeShelf, modal, closeModal, deleteBook } = this.props
 
 		return (
 			<div className="list-books">
@@ -32,16 +25,14 @@ class ListBooks extends Component {
 					<h1>MyReads</h1>
         </div>
 
-        <Button color="danger" onClick={this.toggle}>Modal</Button>
-
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className='modal-test'>
-          <ModalHeader toggle={this.toggle}>Notice</ModalHeader>
+        <Modal isOpen={modal} toggle={closeModal} className='modal-test'>
+          <ModalHeader toggle={closeModal}>Notice</ModalHeader>
           <ModalBody>
             Are you sure you want to delete this book?
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" onClick={this.toggle}>Sure</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+            <Button color="danger" onClick={deleteBook}>Sure</Button>{' '}
+            <Button color="secondary" onClick={closeModal}>Cancel</Button>
           </ModalFooter>
         </Modal>
 

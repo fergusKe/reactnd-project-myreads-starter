@@ -8,7 +8,9 @@ import './stylesheet/App.scss'
 
 class BooksApp extends React.Component {
   state = {
-    books: []
+    books: [],
+    modal: false,
+    currentBook: {},
 	}
 
 	componentDidMount() {
@@ -23,7 +25,7 @@ class BooksApp extends React.Component {
 
 	changeShelf = (shelf, book) => {
     if (shelf === 'delete') {
-      // this.toggle()
+      this.openModal(book)
     } else if (shelf !== book.shelf && shelf !== 'none') {
 			const books = this.state.books.map((b) => {
 				if (b === book) {
@@ -36,21 +38,36 @@ class BooksApp extends React.Component {
 		}
   }
 
+  openModal = (book) => {
+    this.setState({
+      modal: true,
+      currentBook: book
+    })
+  }
+
+  closeModal = () => {
+    this.setState({
+      modal: false,
+      currentBook: {}
+    })
+  }
+
+  deleteBook = () => {
+    this.setState((state) => ({
+      books: state.books.filter((b) => b !== state.currentBook),
+      modal: false,
+      currentBook: {}
+    }))
+  }
+
   createBook = (book) => {
     this.setState(state => ({
       books: state.books.concat(book)
     }))
   }
 
-  // toggle = () => {
-  //   console.log('handleModal')
-  //   this.setState({
-  //     modal: !this.state.modal
-  //   })
-  // }
-
   render() {
-    const { books } = this.state
+    const { books, modal } = this.state
 
     return (
       <div className="app">
@@ -58,6 +75,9 @@ class BooksApp extends React.Component {
           <ListBooks
             books={books}
             changeShelf={this.changeShelf}
+            modal={modal}
+            closeModal={this.closeModal}
+            deleteBook={this.deleteBook}
           />
         )} />
         <Route path="/search" render={() => (
