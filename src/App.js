@@ -4,7 +4,7 @@ import SearchBooks from './components/SearchBooks'
 import ListBooks from './components/ListBooks'
 import CreateBook from './components/CreateBook'
 import * as BooksAPI from './utils/BooksAPI'
-import './stylesheet/App.css'
+import './stylesheet/App.scss'
 
 class BooksApp extends React.Component {
   state = {
