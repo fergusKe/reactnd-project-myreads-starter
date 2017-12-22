@@ -11,16 +11,29 @@ class BooksApp extends React.Component {
     books: [],
     modal: false,
     currentBook: {},
-	}
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    localStorage.setItem('books', JSON.stringify(nextState.books))
+  }
+
 
 	componentDidMount() {
-		BooksAPI
-			.getAll()
-			.then((books) => {
-				this.setState({
-					books
-				})
-			})
+    const localStorageRef = localStorage.getItem('books')
+
+    if (localStorageRef) {
+      this.setState({
+        books: JSON.parse(localStorageRef)
+      })
+    } else {
+      BooksAPI
+        .getAll()
+        .then((books) => {
+          this.setState({
+            books
+          })
+        })
+    }
 	}
 
 	changeShelf = (shelf, book) => {
