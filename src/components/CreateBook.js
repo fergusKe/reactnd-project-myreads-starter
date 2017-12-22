@@ -12,7 +12,7 @@ class CreateBook extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const values = serializeForm(e.target, { hash: true })
+    const values = serializeForm(e.target, { hash: true, empty: true })
 
     this.props.createBook({
       ...values,
