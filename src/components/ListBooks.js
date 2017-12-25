@@ -14,17 +14,19 @@ class ListBooks extends Component {
     modal: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
     deleteBook: PropTypes.func.isRequired,
+    initBooks: PropTypes.func.isRequired,
   }
 
 	render() {
-    const { books, changeShelf, modal, closeModal, deleteBook } = this.props
+    const { books, changeShelf, modal, closeModal, deleteBook, initBooks } = this.props
+    const resetBooksBtnStyle = { margin: '20px 20px 0 20px' }
 
 		return (
 			<div className="list-books">
 				<div className="list-books-title">
 					<h1>MyReads</h1>
         </div>
-
+        <Button onClick={initBooks} style={resetBooksBtnStyle} color="secondary">reset books</Button>
         <Modal isOpen={modal} toggle={closeModal} className='modal-test'>
           <ModalHeader toggle={closeModal}>Notice</ModalHeader>
           <ModalBody>

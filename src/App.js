@@ -26,13 +26,7 @@ class BooksApp extends React.Component {
         books: JSON.parse(localStorageRef)
       })
     } else {
-      BooksAPI
-        .getAll()
-        .then((books) => {
-          this.setState({
-            books
-          })
-        })
+      this.initBooks()
     }
 	}
 
@@ -79,6 +73,16 @@ class BooksApp extends React.Component {
     }))
   }
 
+  initBooks = () => {
+    BooksAPI
+      .getAll()
+      .then((books) => {
+        this.setState({
+          books
+        })
+      })
+  }
+
   render() {
     const { books, modal } = this.state
 
@@ -91,6 +95,7 @@ class BooksApp extends React.Component {
             modal={modal}
             closeModal={this.closeModal}
             deleteBook={this.deleteBook}
+            initBooks={this.initBooks}
           />
         )} />
         <Route path="/search" render={() => (
