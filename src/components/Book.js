@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import Highlighter from 'react-highlight-words'
 
 class Book extends Component {
@@ -16,7 +17,11 @@ class Book extends Component {
       <li>
         <div className="book">
           <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url(' + book.imageLinks.thumbnail + ')' }}></div>
+            <Link
+              className="book-cover"
+              to={`/books/${book.id}`}
+              style={{ width: 128, height: 193, backgroundImage: 'url(' + book.imageLinks.thumbnail + ')' }}
+            />
             <div className="book-shelf-changer">
               <select value={book.shelf} onChange={(e) => changeShelf(e.target.value, book)} >
                 <option value="none" disabled>Move to...</option>

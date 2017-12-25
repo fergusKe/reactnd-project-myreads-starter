@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom'
 import SearchBooks from './components/SearchBooks'
 import ListBooks from './components/ListBooks'
 import CreateBook from './components/CreateBook'
+import ShowBook from './components/ShowBook'
 import * as BooksAPI from './utils/BooksAPI'
 import './stylesheet/App.scss'
 
@@ -111,6 +112,9 @@ class BooksApp extends React.Component {
               history.push('/')
             }}
           />
+        )} />
+        <Route path="/books/:id" render={() => (
+          <ShowBook />
         )} />
       </div>
     )
