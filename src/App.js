@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import SearchBooks from './components/SearchBooks'
 import ListBooks from './components/ListBooks'
 import CreateBook from './components/CreateBook'
@@ -94,9 +95,6 @@ class BooksApp extends React.Component {
           <ListBooks
             books={books}
             changeShelf={this.changeShelf}
-            modal={modal}
-            closeModal={this.closeModal}
-            deleteBook={this.deleteBook}
             initBooks={this.initBooks}
           />
         )} />
@@ -120,6 +118,16 @@ class BooksApp extends React.Component {
             match={match}
           />
         )} />
+        <Modal isOpen={modal} toggle={this.closeModal} className='modal-test'>
+          <ModalHeader toggle={this.closeModal}>Notice</ModalHeader>
+          <ModalBody>
+            Are you sure you want to delete this book?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" onClick={this.deleteBook}>Sure</Button>{' '}
+            <Button color="secondary" onClick={this.closeModal}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
       </div>
     )
   }
