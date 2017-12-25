@@ -5,7 +5,6 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/fontawesome-free-solid'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import BooksContent from './BooksContent'
-import '../stylesheet/modal.scss'
 
 class ListBooks extends Component {
 	static propTypes = {

@@ -5,6 +5,7 @@ import ListBooks from './components/ListBooks'
 import CreateBook from './components/CreateBook'
 import ShowBook from './components/ShowBook'
 import * as BooksAPI from './utils/BooksAPI'
+import 'bootstrap/dist/css/bootstrap.css'
 import './stylesheet/App.scss'
 
 class BooksApp extends React.Component {
@@ -113,8 +114,11 @@ class BooksApp extends React.Component {
             }}
           />
         )} />
-        <Route path="/books/:id" render={() => (
-          <ShowBook />
+        <Route path="/books/:id" render={({ match }) => (
+          <ShowBook
+            books={books}
+            match={match}
+          />
         )} />
       </div>
     )
