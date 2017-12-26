@@ -6,6 +6,7 @@ import SearchBooks from './components/SearchBooks'
 import ListBooks from './components/ListBooks'
 import CreateBook from './components/CreateBook'
 import ShowBook from './components/ShowBook'
+import FakeLoader from './components/FakeLoader/FakeLoader'
 import * as BooksAPI from './utils/BooksAPI'
 import 'bootstrap/dist/css/bootstrap.css'
 import './stylesheet/App.scss'
@@ -15,6 +16,7 @@ class BooksApp extends React.Component {
   state = {
     books: [],
     modal: false,
+    loading: true,
     currentBook: {},
   }
 
@@ -89,7 +91,7 @@ class BooksApp extends React.Component {
   }
 
   render() {
-    const { books, modal } = this.state
+    const { books, modal, loading } = this.state
 
     return (
       <div className="app">
@@ -127,6 +129,7 @@ class BooksApp extends React.Component {
             />
           )} />
         </AnimatedSwitch>
+        <FakeLoader spinner="spinner6" loading={loading} />
         <Modal isOpen={modal} toggle={this.closeModal} className='modal-test'>
           <ModalHeader toggle={this.closeModal}>Notice</ModalHeader>
           <ModalBody>
