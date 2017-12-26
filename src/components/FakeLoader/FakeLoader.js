@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { CSSTransition } from 'react-transition-group'
 import './FakeLoader.scss'
 
 class FakeLoader extends Component {
@@ -12,7 +13,6 @@ class FakeLoader extends Component {
     width: '100%',
     height: '100%',
     zIndex: '999',
-    opacity: 1,
     bgColor: '#34495e',
   }
 
@@ -72,7 +72,7 @@ class FakeLoader extends Component {
 	render() {
     const { loading, spinner } = this.props
 
-		const style = {
+		const defaultStyle = {
       'display': this.props.display,
       'position': this.props.position,
       'top': this.props.top,
@@ -80,23 +80,29 @@ class FakeLoader extends Component {
       'width': this.props.width,
       'height': this.props.height,
       'zIndex': this.props.zIndex,
-      'opacity': this.props.opacity,
       'backgroundColor': this.props.bgColor,
     }
 
+    const animationTiming = {
+      enter: 300,
+      exit: 300
+    }
+
 		return (
-      <div>
-        {
-          loading
-          ? <div
-              className="fakeloader"
-              style={style}
-            >
-              {this.getSpinner(spinner)}
-            </div>
-          : ''
-        }
-      </div>
+      <CSSTransition
+        mountOnEnter
+        unmountOnExit
+        classNames="fade"
+        in={loading}
+        timeout={animationTiming}
+      >
+        <div
+          className="fakeloader"
+          style={defaultStyle}
+        >
+          {this.getSpinner(spinner)}
+        </div>
+      </CSSTransition>
 		)
 	}
 }

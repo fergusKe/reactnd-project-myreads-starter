@@ -24,7 +24,6 @@ class BooksApp extends React.Component {
     localStorage.setItem('books', JSON.stringify(nextState.books))
   }
 
-
 	componentDidMount() {
     const localStorageRef = localStorage.getItem('books')
 
@@ -32,6 +31,7 @@ class BooksApp extends React.Component {
       this.setState({
         books: JSON.parse(localStorageRef)
       })
+      this.closeLoading()
     } else {
       this.initBooks()
     }
@@ -87,7 +87,14 @@ class BooksApp extends React.Component {
         this.setState({
           books
         })
+        this.closeLoading()
       })
+  }
+
+  closeLoading = () => {
+    this.setState({
+      loading: false
+    })
   }
 
   render() {
