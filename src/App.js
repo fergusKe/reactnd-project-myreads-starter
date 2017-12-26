@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { AnimatedSwitch } from 'react-router-transition'
 import SearchBooks from './components/SearchBooks'
 import ListBooks from './components/ListBooks'
 import CreateBook from './components/CreateBook'
@@ -8,6 +9,7 @@ import ShowBook from './components/ShowBook'
 import * as BooksAPI from './utils/BooksAPI'
 import 'bootstrap/dist/css/bootstrap.css'
 import './stylesheet/App.scss'
+import './stylesheet/router-transition.scss'
 
 class BooksApp extends React.Component {
   state = {
@@ -91,33 +93,40 @@ class BooksApp extends React.Component {
 
     return (
       <div className="app">
-        <Route exact path="/" render={() => (
-          <ListBooks
-            books={books}
-            changeShelf={this.changeShelf}
-            initBooks={this.initBooks}
-          />
-        )} />
-        <Route path="/search" render={() => (
-          <SearchBooks
-            books={books}
-            changeShelf={this.changeShelf}
-          />
-        )} />
-        <Route path="/create" render={({ history }) => (
-          <CreateBook
-            createBook={(book) => {
-              this.createBook(book)
-              history.push('/')
-            }}
-          />
-        )} />
-        <Route path="/books/:id" render={({ match }) => (
-          <ShowBook
-            books={books}
-            match={match}
-          />
-        )} />
+        <AnimatedSwitch
+          atEnter={{ opacity: 0 }}
+          atLeave={{ opacity: 0 }}
+          atActive={{ opacity: 1 }}
+          className="switch-wrapper"
+        >
+          <Route exact path="/" render={() => (
+            <ListBooks
+              books={books}
+              changeShelf={this.changeShelf}
+              initBooks={this.initBooks}
+            />
+          )} />
+          <Route path="/search" render={() => (
+            <SearchBooks
+              books={books}
+              changeShelf={this.changeShelf}
+            />
+          )} />
+          <Route path="/create" render={({ history }) => (
+            <CreateBook
+              createBook={(book) => {
+                this.createBook(book)
+                history.push('/')
+              }}
+            />
+          )} />
+          <Route path="/books/:id" render={({ match }) => (
+            <ShowBook
+              books={books}
+              match={match}
+            />
+          )} />
+        </AnimatedSwitch>
         <Modal isOpen={modal} toggle={this.closeModal} className='modal-test'>
           <ModalHeader toggle={this.closeModal}>Notice</ModalHeader>
           <ModalBody>
