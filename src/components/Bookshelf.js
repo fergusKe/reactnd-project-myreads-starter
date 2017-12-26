@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import Book from './Book'
+import '../stylesheet/animate.scss'
 
 class Bookshelf extends Component {
   static propTypes = {
@@ -17,11 +19,16 @@ class Bookshelf extends Component {
 			<div className="bookshelf">
 				<h2 className="bookshelf-title">{title}</h2>
 				<div className="bookshelf-books">
-					<ol className="books-grid">
+          <TransitionGroup
+            className="books-grid"
+            component="ol"
+          >
 						{books.map((book) => (
-							<Book key={book.id} book={book} query={query} changeShelf={changeShelf} />
+              <CSSTransition key={book.id} classNames="fade" timeout={300}>
+                <Book key={book.id} book={book} query={query} changeShelf={changeShelf} />
+              </CSSTransition>
 						))}
-					</ol>
+					</TransitionGroup>
 				</div>
 			</div>
 		)
