@@ -16,9 +16,21 @@ class FakeLoader extends Component {
     bgColor: '#34495e',
   }
 
+  state = {
+    loading: this.props.loading,
+  }
+
+  componentWillReceiveProps(nextProps) {
+		if (nextProps.loading !== this.state.loading) {
+			this.setState({
+				loading: nextProps.loading
+      })
+		}
+	}
+
 	componentDidMount() {
 		window.addEventListener('resize', this.centerSpinner)
-		this.centerSpinner()
+    this.centerSpinner()
 	}
 
 	componentWillUnmount() {
@@ -56,8 +68,6 @@ class FakeLoader extends Component {
 	}
 
 	centerSpinner = () => {
-    if (!this.spinner) return
-
 		const spinnerEle = this.spinner
 		const winW = window.innerWidth
 		const winH = window.innerHeight
@@ -70,7 +80,8 @@ class FakeLoader extends Component {
 	}
 
 	render() {
-    const { loading, spinner } = this.props
+    const { spinner } = this.props
+    const { loading } = this.state
 
 		const defaultStyle = {
       'display': this.props.display,

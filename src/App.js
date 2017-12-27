@@ -81,6 +81,8 @@ class BooksApp extends React.Component {
   }
 
   initBooks = () => {
+    this.openLoading()
+
     BooksAPI
       .getAll()
       .then((books) => {
@@ -89,6 +91,12 @@ class BooksApp extends React.Component {
         })
         this.closeLoading()
       })
+  }
+
+  openLoading = () => {
+    this.setState({
+      loading: true
+    })
   }
 
   closeLoading = () => {

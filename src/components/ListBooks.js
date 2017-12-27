@@ -21,7 +21,7 @@ class ListBooks extends Component {
 				<div className="list-books-title">
 					<h1>MyReads</h1>
         </div>
-        <Button onClick={initBooks} style={resetBooksBtnStyle} color="secondary">reset books</Button>
+        <Button onClick={initBooks} style={resetBooksBtnStyle} color="secondary">init books</Button>
 				<BooksContent books={books} changeShelf={changeShelf} />
 				<div className="open-search">
           <Link to="/search">
