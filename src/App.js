@@ -23,7 +23,12 @@ class BooksApp extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     localStorage.setItem('books', JSON.stringify(nextState.books))
+    window.addEventListener('scroll', this.onScroll)
   }
+
+  componentWillUnmount() {
+		window.removeEventListener('scroll', this.onScroll)
+	}
 
 	componentDidMount() {
     const localStorageRef = localStorage.getItem('books')
@@ -41,6 +46,10 @@ class BooksApp extends React.Component {
     } else {
       this.initBooks()
     }
+
+    // trigger scroll event
+    const event = new Event('scroll')
+    window.dispatchEvent(event)
 	}
 
 	changeShelf = (shelf, book) => {
@@ -113,6 +122,21 @@ class BooksApp extends React.Component {
     this.setState({
       loading: false
     })
+  }
+
+  onScroll = () => {
+    const itemsEle = document.getElementsByClassName("book")
+		const winBottom = window.scrollY + window.innerHeight
+
+		// Add class when scroll to the top of the book
+		for (let i = 0; i < itemsEle.length; i += 1) {
+			const item = itemsEle[i]
+			const offsetTop = item.offsetTop
+
+			if (offsetTop < winBottom) {
+				item.classList.add('active')
+			}
+		}
   }
 
   render() {
