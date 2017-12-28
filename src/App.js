@@ -8,6 +8,7 @@ import CreateBook from './components/CreateBook'
 import ShowBook from './components/ShowBook'
 import FakeLoader from './components/FakeLoader/FakeLoader'
 import * as BooksAPI from './utils/BooksAPI'
+import { preloadImage } from './utils/helpers'
 import 'bootstrap/dist/css/bootstrap.css'
 import './stylesheet/App.scss'
 import './stylesheet/router-transition.scss'
@@ -26,12 +27,17 @@ class BooksApp extends React.Component {
 
 	componentDidMount() {
     const localStorageRef = localStorage.getItem('books')
+    const books = JSON.parse(localStorageRef)
 
-    if (localStorageRef) {
-      this.setState({
-        books: JSON.parse(localStorageRef)
+    if (books) {
+      preloadImage(books, {
+        all: () => {
+          this.setState({
+            books
+          })
+          this.closeLoading()
+        }
       })
-      this.closeLoading()
     } else {
       this.initBooks()
     }
@@ -86,10 +92,14 @@ class BooksApp extends React.Component {
     BooksAPI
       .getAll()
       .then((books) => {
-        this.setState({
-          books
+        preloadImage(books, {
+          all: () => {
+            this.setState({
+              books
+            })
+            this.closeLoading()
+          }
         })
-        this.closeLoading()
       })
   }
 
