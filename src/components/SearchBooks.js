@@ -9,25 +9,40 @@ import * as booksAPI from '../utils/BooksAPI'
 class SearchBooks extends Component {
   state = {
     books: [],
-    query: ''
+    query: '',
+    isFindBook: false,
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { query } = this.state
 
-    if (query && prevState.query !== query) {
+    if (prevState.query === query) return false
+
+    if (query) {
       booksAPI
         .search(query)
         .then((books) => {
-          this.setState({
-            books
-          })
+          if (books instanceof Array) {
+            this.setState({
+              books,
+              isFindBook: true
+            })
+          } else {
+            this.setState({
+              books: [],
+              isFindBook: false
+            })
+          }
         })
+    } else {
+      this.setState({
+        books: [],
+        isFindBook: false
+      })
     }
   }
 
   updateQuery = (query) => {
-    console.log('query = ', query)
     this.setState({
       query: query.trim()
     })
@@ -35,22 +50,16 @@ class SearchBooks extends Component {
 
 	render() {
     const { changeShelf } = this.props
-    const { books, query } = this.state
+    const { books, query, isFindBook } = this.state
 
-    let showingBooks = books
-
-    books instanceof Array
-    ? showingBooks && (
-        showingBooks.sort(sortBy('title'))
-      )
-    : showingBooks = []
+    books.sort(sortBy('title'))
 
 		return (
 			<div className="search-books">
 				<div className="search-books-bar">
 					<Link className="close-search" to="/">Close</Link>
           <div className="search-books-input-wrapper">
-            <Debounce time="200" handler="onChange">
+            <Debounce time="100" handler="onChange">
               <input
                 type="text"
                 placeholder="Search by title or author"
@@ -61,9 +70,11 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           {
-            books instanceof Array
-            ? <BooksContent books={showingBooks} query={query} changeShelf={changeShelf} />
-            : <h1>Can not find book!!!</h1>
+            !query
+            ? <h1>Searching books add to bookshelf</h1>
+            : isFindBook
+              ? <BooksContent books={books} query={query} changeShelf={changeShelf} />
+              : <h1>Can not find book!!!</h1>
           }
 				</div>
 			</div>
