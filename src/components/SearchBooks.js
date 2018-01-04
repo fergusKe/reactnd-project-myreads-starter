@@ -1,13 +1,28 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
 import BooksContent from './BooksContent'
+import * as booksAPI from '../utils/BooksAPI'
 
 class SearchBooks extends Component {
   state = {
+    books: [],
     query: ''
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { query } = this.state
+
+    if (query && prevState.query !== query) {
+      booksAPI
+        .search(query)
+        .then((books) => {
+          this.setState({
+            books
+          })
+        })
+    }
   }
 
   updateQuery = (query) => {
@@ -17,29 +32,16 @@ class SearchBooks extends Component {
   }
 
 	render() {
-    const { books, changeShelf } = this.props
-    const { query } = this.state
+    const { changeShelf } = this.props
+    const { books, query } = this.state
 
-    let showingBooks
-    if (query) {
-      const field = ['title', 'authors']
-      const match = new RegExp(escapeRegExp(query), 'i')
+    let showingBooks = books
 
-      showingBooks = books.filter((book) => {
-        let isMatch = false
-        field.forEach((f) => {
-          if (match.test(book[f])) {
-            isMatch = true
-          }
-        })
-
-        return isMatch
-      })
-    } else {
-      showingBooks = books
-    }
-
-    showingBooks.sort(sortBy('title'))
+    books instanceof Array
+    ? showingBooks && (
+        showingBooks.sort(sortBy('title'))
+      )
+    : showingBooks = []
 
 		return (
 			<div className="search-books">
@@ -52,11 +54,14 @@ class SearchBooks extends Component {
               value={this.state.query}
               onChange={(e) => this.updateQuery(e.target.value)}
             />
-
 					</div>
         </div>
         <div className="search-books-results">
-          <BooksContent books={showingBooks} query={query} changeShelf={changeShelf} />
+          {
+            books instanceof Array
+            ? <BooksContent books={showingBooks} query={query} changeShelf={changeShelf} />
+            : <h1>Can not find book!!!</h1>
+          }
 				</div>
 			</div>
 		)

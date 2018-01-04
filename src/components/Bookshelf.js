@@ -13,7 +13,7 @@ const Bookshelf = ({title, books, query, changeShelf}) => {
           className="books-grid"
           component="ol"
         >
-          {books.map((book) => (
+          {books.length && books.map((book) => (
             <CSSTransition key={book.id} classNames="fade" timeout={300}>
               <Book key={book.id} book={book} query={query} changeShelf={changeShelf} />
             </CSSTransition>

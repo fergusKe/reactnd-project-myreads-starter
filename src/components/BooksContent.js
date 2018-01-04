@@ -7,28 +7,39 @@ const BooksContent = ({books, query, changeShelf}) => {
   const wantToRead = []
   const read = []
 
-  books.forEach((book) => {
-    switch (book.shelf) {
-      case 'currentlyReading':
-        currentlyReading.push(book)
-        break
-      case 'wantToRead':
-        wantToRead.push(book)
-        break
-      case 'read':
-        read.push(book)
-        break
-      default:
-    }
-  })
+  // Not in Searching
+  if (query === undefined) {
+    books.length && books.forEach((book) => {
+      switch (book.shelf) {
+        case 'currentlyReading':
+          currentlyReading.push(book)
+          break
+        case 'wantToRead':
+          wantToRead.push(book)
+          break
+        case 'read':
+          read.push(book)
+          break
+        default:
+      }
+    })
+  }
 
   return (
     <div className="list-books-content">
-      <div>
-        <Bookshelf title="Currently Reading" books={currentlyReading} query={query} changeShelf={changeShelf} />
-        <Bookshelf title="Want to Read" books={wantToRead} query={query} changeShelf={changeShelf} />
-        <Bookshelf title="Read" books={read} query={query} changeShelf={changeShelf} />
-      </div>
+      {
+        query === undefined
+        ? (
+          <div>
+            <Bookshelf title="Currently Reading" books={currentlyReading} query={query} changeShelf={changeShelf} />
+            <Bookshelf title="Want to Read" books={wantToRead} query={query} changeShelf={changeShelf} />
+            <Bookshelf title="Read" books={read} query={query} changeShelf={changeShelf} />
+          </div>
+        )
+        : (
+          <Bookshelf title="Searching books add to bookshelf" books={books} query={query} changeShelf={changeShelf} />
+        )
+      }
     </div>
   )
 }

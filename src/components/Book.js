@@ -25,15 +25,19 @@ const Book = ({book, query, changeShelf}) => {
           </div>
         </div>
         <div className="book-title">
-          <Highlighter
-            searchWords={[query]}
-            autoEscape={true}
-            textToHighlight={book.title}
-          />
+          {
+            book.title && (
+              <Highlighter
+                searchWords={[query]}
+                autoEscape={true}
+                textToHighlight={book.title}
+              />
+            )
+          }
         </div>
         <div className="book-authors">
           {
-            book.authors.map((name) => (
+            book.authors && book.authors.map((name) => (
               <Highlighter
                 key={name}
                 className="name"
