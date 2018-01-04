@@ -6,11 +6,6 @@ import sortBy from 'sort-by'
 import BooksContent from './BooksContent'
 
 class SearchBooks extends Component {
-  static propTypes = {
-    books: PropTypes.array.isRequired,
-    changeShelf: PropTypes.func.isRequired,
-  }
-
   state = {
     query: ''
   }
@@ -66,6 +61,11 @@ class SearchBooks extends Component {
 			</div>
 		)
 	}
+}
+
+SearchBooks.propTypes = {
+  books: PropTypes.array.isRequired,
+  changeShelf: PropTypes.func.isRequired,
 }
 
 export default SearchBooks

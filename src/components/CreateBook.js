@@ -6,10 +6,6 @@ import ImageInput from './ImageInput'
 import { randomString } from '../utils/helpers'
 
 class CreateBook extends Component {
-  static propTypes = {
-    createBook: PropTypes.func.isRequired,
-  }
-
   handleSubmit = (e) => {
     e.preventDefault()
     const values = serializeForm(e.target, { hash: true, empty: true })
@@ -42,6 +38,10 @@ class CreateBook extends Component {
       </div>
     )
   }
+}
+
+CreateBook.propTypes = {
+  createBook: PropTypes.func.isRequired,
 }
 
 export default CreateBook

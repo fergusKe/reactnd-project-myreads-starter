@@ -3,19 +3,6 @@ import { CSSTransition } from 'react-transition-group'
 import './FakeLoader.scss'
 
 class FakeLoader extends Component {
-  static defaultProps = {
-    loading: true,
-    spinner: 'spinner1',
-    display: 'block',
-    position: 'fixed',
-    top: '0px',
-    left: '0px',
-    width: '100%',
-    height: '100%',
-    zIndex: '999',
-    bgColor: '#34495e',
-  }
-
   state = {
     loading: this.props.loading,
   }
@@ -116,6 +103,19 @@ class FakeLoader extends Component {
       </CSSTransition>
 		)
 	}
+}
+
+FakeLoader.defaultProps = {
+  loading: true,
+  spinner: 'spinner1',
+  display: 'block',
+  position: 'fixed',
+  top: '0px',
+  left: '0px',
+  width: '100%',
+  height: '100%',
+  zIndex: '999',
+  bgColor: '#34495e',
 }
 
 export default FakeLoader
