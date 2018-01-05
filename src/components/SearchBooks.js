@@ -10,7 +10,7 @@ class SearchBooks extends Component {
   state = {
     books: [],
     query: '',
-    isFindBook: false,
+    isHasBookCanFind: true,
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -25,19 +25,19 @@ class SearchBooks extends Component {
           if (books instanceof Array) {
             this.setState({
               books,
-              isFindBook: true
+              isHasBookCanFind: true
             })
           } else {
             this.setState({
               books: [],
-              isFindBook: false
+              isHasBookCanFind: false
             })
           }
         })
     } else {
       this.setState({
         books: [],
-        isFindBook: false
+        isHasBookCanFind: true
       })
     }
   }
@@ -50,7 +50,7 @@ class SearchBooks extends Component {
 
 	render() {
     const { changeShelf } = this.props
-    const { books, query, isFindBook } = this.state
+    const { books, query, isHasBookCanFind } = this.state
 
     books.sort(sortBy('title'))
 
@@ -62,7 +62,7 @@ class SearchBooks extends Component {
             <Debounce time="100" handler="onChange">
               <input
                 type="text"
-                placeholder="Search by title or author"
+                placeholder="Search book"
                 onChange={(e) => this.updateQuery(e.target.value)}
               />
             </Debounce>
@@ -70,11 +70,11 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           {
-            !query
-            ? <h1>Searching books add to bookshelf</h1>
-            : isFindBook
+            query
+            ? isHasBookCanFind
               ? <BooksContent books={books} query={query} changeShelf={changeShelf} />
               : <h1>Can not find book!!!</h1>
+            : <h1>Please enter the word to search book</h1>
           }
 				</div>
 			</div>
