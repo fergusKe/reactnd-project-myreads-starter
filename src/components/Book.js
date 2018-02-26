@@ -14,12 +14,11 @@ const Book = ({book, query, changeShelf}) => {
             style={{ width: 128, height: 193, backgroundImage: 'url(' + book.imageLinks.thumbnail + ')' }}
           />
           <div className="book-shelf-changer">
-            <select value={book.shelf} onChange={(e) => changeShelf(e.target.value, book)} >
+            <select value={book.shelf ? book.shelf : 'none'} onChange={(e) => changeShelf(e.target.value, book)} >
               <option value="none" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
-              <option value="none">None</option>
               <option value="delete">Delete</option>
             </select>
           </div>

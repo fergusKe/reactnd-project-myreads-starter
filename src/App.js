@@ -1,12 +1,14 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { AnimatedSwitch } from 'react-router-transition'
+
 import SearchBooks from './components/SearchBooks'
 import ListBooks from './components/ListBooks'
 import CreateBook from './components/CreateBook'
 import ShowBook from './components/ShowBook'
 import FakeLoader from './components/FakeLoader/FakeLoader'
+import ModalComponent from './components/ModalComponent/ModalComponent'
+
 import * as BooksAPI from './utils/BooksAPI'
 import { preloadImage } from './utils/helpers'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -17,6 +19,7 @@ class BooksApp extends React.Component {
   state = {
     books: [],
     modal: false,
+    modalType: 'deleteBook',
     loading: true,
     currentBook: {},
   }
@@ -52,25 +55,58 @@ class BooksApp extends React.Component {
     window.dispatchEvent(event)
 	}
 
-	changeShelf = (shelf, book) => {
-    if (shelf === 'delete') {
-      this.openModal(book)
-    } else if (shelf !== book.shelf && shelf !== 'none') {
-			const books = this.state.books.map((b) => {
-				if (b === book) {
-					b.shelf = shelf
-				}
-				return b
-			})
+	changeShelf = (shelf, selectedBook) => {
+    console.log('books = ', this.state.books)
+    console.log('shelf = ', shelf)
+    console.log('selectedBook = ', selectedBook)
 
-			this.setState({ books })
-		}
+    if (selectedBook.shelf === undefined) {
+      // searching book add to shelf
+      selectedBook = {
+        ...selectedBook,
+        shelf
+      }
+
+      const isHasBook = this.state.books.find((book) => {
+        return book.id === selectedBook.id
+      })
+
+      if (isHasBook) {
+        this.openModal(selectedBook, 'sameBook')
+      } else {
+        this.setState({
+          books: [
+            ...this.state.books,
+            selectedBook
+          ]
+        })
+      }
+    } else {
+      // change shelf
+      if (shelf === 'delete') {
+        this.openModal(selectedBook, 'deleteBook')
+      } else if (shelf !== selectedBook.shelf) {
+        const books = this.state.books.map((book) => {
+          if (book === selectedBook) {
+            return {
+              ...book,
+              shelf
+            }
+          }
+
+          return book
+        })
+
+        this.setState({ books })
+      }
+    }
   }
 
-  openModal = (book) => {
+  openModal = (book, modalType) => {
     this.setState({
       modal: true,
-      currentBook: book
+      currentBook: book,
+      modalType,
     })
   }
 
@@ -140,7 +176,7 @@ class BooksApp extends React.Component {
   }
 
   render() {
-    const { books, modal, loading } = this.state
+    const { books, modal, modalType, loading } = this.state
 
     return (
       <div className="app">
@@ -179,16 +215,12 @@ class BooksApp extends React.Component {
           )} />
         </AnimatedSwitch>
         <FakeLoader spinner="spinner6" loading={loading} />
-        <Modal isOpen={modal} toggle={this.closeModal} className='modal-test'>
-          <ModalHeader toggle={this.closeModal}>Notice</ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete this book?
-          </ModalBody>
-          <ModalFooter>
-            <Button color="danger" onClick={this.deleteBook}>Sure</Button>{' '}
-            <Button color="secondary" onClick={this.closeModal}>Cancel</Button>
-          </ModalFooter>
-        </Modal>
+        <ModalComponent
+          modal={modal}
+          modalType={modalType}
+          deleteBook={this.deleteBook}
+          closeModal={this.closeModal}
+        />
       </div>
     )
   }
