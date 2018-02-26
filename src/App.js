@@ -52,10 +52,6 @@ class BooksApp extends React.Component {
     } else {
       this.initBooks()
     }
-
-    // trigger scroll event
-    // const event = new Event('scroll')
-    // window.dispatchEvent(event)
 	}
 
 	changeShelf = (shelf, selectedBook) => {
@@ -230,6 +226,7 @@ class BooksApp extends React.Component {
           )} />
           <Route path="/search" render={() => (
             <SearchBooks
+              books={books}
               searchedbooks={searchedbooks}
               searchingBooks={this.searchingBooks}
               changeShelf={this.changeShelf}

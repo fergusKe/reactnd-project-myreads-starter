@@ -9,7 +9,7 @@ const Bookshelf = ({title, books, query, changeShelf}) => {
       <h2 className="bookshelf-title">{title}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {books.length && books.map((book) => (
+          {books.length > 0 && books.map((book) => (
             <ScrollAnimation
               key={book.id}
               animateIn="fadeIn"

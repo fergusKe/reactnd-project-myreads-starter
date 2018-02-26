@@ -7,20 +7,21 @@ import BooksContent from './BooksContent'
 
 class SearchBooks extends Component {
   state = {
-    books: [],
+    // books: [],
+    // searchedbooks: [],
     query: '',
-    isHasBookCanFind: true,
+    // isHasBookCanFind: true,
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.searchedbooks !== this.state.books ||
-        nextProps.isHasBookCanFind !== this.state.isHasBookCanFind) {
-      this.setState({
-        books: nextProps.searchedbooks,
-				isHasBookCanFind: nextProps.isHasBookCanFind,
-			})
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.searchedbooks !== this.state.searchedbooks ||
+  //       nextProps.isHasBookCanFind !== this.state.isHasBookCanFind) {
+  //     this.setState({
+  //       searchedbooks: nextProps.searchedbooks,
+	// 			isHasBookCanFind: nextProps.isHasBookCanFind,
+	// 		})
+  //   }
+  // }
 
   componentDidUpdate(prevProps, prevState) {
     const { query } = this.state
@@ -37,10 +38,19 @@ class SearchBooks extends Component {
   }
 
 	render() {
-    const { changeShelf } = this.props
-    const { books, query, isHasBookCanFind } = this.state
+    const { books, searchedbooks, isHasBookCanFind, changeShelf } = this.props
+    const { query } = this.state
+    let newSearchedbooks = searchedbooks.filter(searchedbook => {
+      let isNotSameBook = true
+      books.forEach(b => {
+        if (b.id === searchedbook.id) {
+          isNotSameBook = false
+        }
+      })
+      return isNotSameBook
+    })
 
-    books.sort(sortBy('title'))
+    newSearchedbooks.sort(sortBy('title'))
 
 		return (
 			<div className="search-books">
@@ -60,7 +70,7 @@ class SearchBooks extends Component {
           {
             query
             ? isHasBookCanFind
-              ? <BooksContent books={books} query={query} changeShelf={changeShelf} />
+              ? <BooksContent books={newSearchedbooks} query={query} changeShelf={changeShelf} />
               : <h1>Can not find book!!!</h1>
             : <h1>Please enter the word to search book</h1>
           }
@@ -71,6 +81,7 @@ class SearchBooks extends Component {
 }
 
 SearchBooks.propTypes = {
+  books: PropTypes.array.isRequired,
   searchedbooks: PropTypes.array.isRequired,
   changeShelf: PropTypes.func.isRequired,
   isHasBookCanFind: PropTypes.bool.isRequired,
