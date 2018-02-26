@@ -1,24 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import ScrollAnimation from 'react-animate-on-scroll'
 import Book from './Book'
-import '../stylesheet/animate.scss'
 
 const Bookshelf = ({title, books, query, changeShelf}) => {
 	return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title}</h2>
       <div className="bookshelf-books">
-        <TransitionGroup
-          className="books-grid"
-          component="ol"
-        >
+        <ol className="books-grid">
           {books.length && books.map((book) => (
-            <CSSTransition key={book.id} classNames="fade" timeout={300}>
+            <ScrollAnimation
+              key={book.id}
+              animateIn="fadeIn"
+              animateOnce={true}
+            >
               <Book key={book.id} book={book} query={query} changeShelf={changeShelf} />
-            </CSSTransition>
+            </ScrollAnimation>
           ))}
-        </TransitionGroup>
+        </ol>
       </div>
     </div>
   )

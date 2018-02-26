@@ -11,6 +11,7 @@ import ModalComponent from './components/ModalComponent/ModalComponent'
 
 import * as BooksAPI from './utils/BooksAPI'
 import { preloadImage } from './utils/helpers'
+import "animate.css/animate.min.css"
 import 'bootstrap/dist/css/bootstrap.css'
 import './stylesheet/App.scss'
 import './stylesheet/router-transition.scss'
@@ -53,8 +54,8 @@ class BooksApp extends React.Component {
     }
 
     // trigger scroll event
-    const event = new Event('scroll')
-    window.dispatchEvent(event)
+    // const event = new Event('scroll')
+    // window.dispatchEvent(event)
 	}
 
 	changeShelf = (shelf, selectedBook) => {
@@ -188,18 +189,18 @@ class BooksApp extends React.Component {
   }
 
   onScroll = () => {
-    const itemsEle = document.getElementsByClassName("book")
-		const winBottom = window.scrollY + window.innerHeight
+    // const itemsEle = document.getElementsByClassName("book")
+		// const winBottom = window.scrollY + window.innerHeight
 
 		// Add class when scroll to the top of the book
-		for (let i = 0; i < itemsEle.length; i += 1) {
-			const item = itemsEle[i]
-			const offsetTop = item.offsetTop
+		// for (let i = 0; i < itemsEle.length; i += 1) {
+		// 	const item = itemsEle[i]
+		// 	const offsetTop = item.offsetTop
 
-			if (offsetTop < winBottom) {
-				item.classList.add('active')
-			}
-		}
+		// 	if (offsetTop < winBottom) {
+		// 		item.classList.add('active')
+		// 	}
+		// }
   }
 
   render() {
