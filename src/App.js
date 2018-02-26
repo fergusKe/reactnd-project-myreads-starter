@@ -18,10 +18,12 @@ import './stylesheet/router-transition.scss'
 class BooksApp extends React.Component {
   state = {
     books: [],
+    searchedbooks: [],
     modal: false,
     modalType: 'deleteBook',
     loading: true,
     currentBook: {},
+    isHasBookCanFind: true,
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -148,6 +150,31 @@ class BooksApp extends React.Component {
       })
   }
 
+  searchingBooks = (query) => {
+    if (query) {
+      BooksAPI
+        .search(query)
+        .then((searchedbooks) => {
+          if (searchedbooks instanceof Array) {
+            this.setState({
+              searchedbooks,
+              isHasBookCanFind: true
+            })
+          } else {
+            this.setState({
+              searchedbooks: [],
+              isHasBookCanFind: false
+            })
+          }
+        })
+    } else {
+      this.setState({
+        searchedbooks: [],
+        isHasBookCanFind: true
+      })
+    }
+  }
+
   openLoading = () => {
     this.setState({
       loading: true
@@ -176,7 +203,14 @@ class BooksApp extends React.Component {
   }
 
   render() {
-    const { books, modal, modalType, loading } = this.state
+    const {
+      books,
+      searchedbooks,
+      isHasBookCanFind,
+      modal,
+      modalType,
+      loading
+    } = this.state
 
     return (
       <div className="app">
@@ -195,8 +229,10 @@ class BooksApp extends React.Component {
           )} />
           <Route path="/search" render={() => (
             <SearchBooks
-              books={books}
+              searchedbooks={searchedbooks}
+              searchingBooks={this.searchingBooks}
               changeShelf={this.changeShelf}
+              isHasBookCanFind={isHasBookCanFind}
             />
           )} />
           <Route path="/create" render={({ history }) => (
@@ -209,8 +245,9 @@ class BooksApp extends React.Component {
           )} />
           <Route path="/books/:id" render={({ match }) => (
             <ShowBook
-              books={books}
               match={match}
+              books={books}
+              searchedbooks={searchedbooks}
             />
           )} />
         </AnimatedSwitch>

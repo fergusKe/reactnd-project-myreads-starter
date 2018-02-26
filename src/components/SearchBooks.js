@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import sortBy from 'sort-by'
 import { Debounce } from 'react-throttle'
 import BooksContent from './BooksContent'
-import * as booksAPI from '../utils/BooksAPI'
 
 class SearchBooks extends Component {
   state = {
@@ -13,32 +12,21 @@ class SearchBooks extends Component {
     isHasBookCanFind: true,
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.searchedbooks !== this.state.books ||
+        nextProps.isHasBookCanFind !== this.state.isHasBookCanFind) {
+      this.setState({
+        books: nextProps.searchedbooks,
+				isHasBookCanFind: nextProps.isHasBookCanFind,
+			})
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { query } = this.state
 
-    if (prevState.query === query) return false
-
-    if (query) {
-      booksAPI
-        .search(query)
-        .then((books) => {
-          if (books instanceof Array) {
-            this.setState({
-              books,
-              isHasBookCanFind: true
-            })
-          } else {
-            this.setState({
-              books: [],
-              isHasBookCanFind: false
-            })
-          }
-        })
-    } else {
-      this.setState({
-        books: [],
-        isHasBookCanFind: true
-      })
+    if (prevState.query !== query) {
+      this.props.searchingBooks(query)
     }
   }
 
@@ -83,8 +71,9 @@ class SearchBooks extends Component {
 }
 
 SearchBooks.propTypes = {
-  books: PropTypes.array.isRequired,
+  searchedbooks: PropTypes.array.isRequired,
   changeShelf: PropTypes.func.isRequired,
+  isHasBookCanFind: PropTypes.bool.isRequired,
 }
 
 export default SearchBooks

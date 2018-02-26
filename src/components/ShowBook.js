@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-const ShowBook = ({books, match}) => {
+const ShowBook = ({match, books, searchedbooks}) => {
   const { id } = match.params
+  const AllBooks = [...books, ...searchedbooks]
 
-  const book = books.filter((b) => (
+  const book = AllBooks.filter((b) => (
     b.id === id
   ))[0]
 
@@ -22,7 +23,7 @@ const ShowBook = ({books, match}) => {
           <h4 className="card-title">{book.title}</h4>
           <p className="card-text book-authors">
             {
-              book.authors.map((name) => (
+              book.authors && book.authors.map((name) => (
                 <span key={name} className="name">{name}</span>
               ))
             }
@@ -34,7 +35,9 @@ const ShowBook = ({books, match}) => {
 }
 
 ShowBook.propTypes = {
+  match: PropTypes.object.isRequired,
   books: PropTypes.array.isRequired,
+  searchedbooks: PropTypes.array.isRequired,
 }
 
 export default ShowBook
