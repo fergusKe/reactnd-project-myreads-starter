@@ -7,21 +7,8 @@ import BooksContent from './BooksContent'
 
 class SearchBooks extends Component {
   state = {
-    // books: [],
-    // searchedbooks: [],
     query: '',
-    // isHasBookCanFind: true,
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.searchedbooks !== this.state.searchedbooks ||
-  //       nextProps.isHasBookCanFind !== this.state.isHasBookCanFind) {
-  //     this.setState({
-  //       searchedbooks: nextProps.searchedbooks,
-	// 			isHasBookCanFind: nextProps.isHasBookCanFind,
-	// 		})
-  //   }
-  // }
 
   componentDidUpdate(prevProps, prevState) {
     const { query } = this.state
@@ -40,14 +27,17 @@ class SearchBooks extends Component {
 	render() {
     const { books, searchedbooks, isHasBookCanFind, changeShelf } = this.props
     const { query } = this.state
-    let newSearchedbooks = searchedbooks.filter(searchedbook => {
-      let isNotSameBook = true
+
+    let newSearchedbooks = searchedbooks.map(searchedbook => {
+      let newSearchedbook = { ...searchedbook }
+
+      // If this book on the shelf, make it the same
       books.forEach(b => {
-        if (b.id === searchedbook.id) {
-          isNotSameBook = false
+        if (b.id === newSearchedbook.id) {
+          newSearchedbook.shelf = b.shelf
         }
       })
-      return isNotSameBook
+      return newSearchedbook
     })
 
     newSearchedbooks.sort(sortBy('title'))

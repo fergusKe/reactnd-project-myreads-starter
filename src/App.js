@@ -29,12 +29,7 @@ class BooksApp extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     localStorage.setItem('books', JSON.stringify(nextState.books))
-    window.addEventListener('scroll', this.onScroll)
   }
-
-  componentWillUnmount() {
-		window.removeEventListener('scroll', this.onScroll)
-	}
 
 	componentDidMount() {
     const localStorageRef = localStorage.getItem('books')
@@ -55,12 +50,11 @@ class BooksApp extends React.Component {
 	}
 
 	changeShelf = (shelf, selectedBook) => {
-    console.log('books = ', this.state.books)
     console.log('shelf = ', shelf)
     console.log('selectedBook = ', selectedBook)
 
+    // searching book add to shelf
     if (selectedBook.shelf === undefined) {
-      // searching book add to shelf
       selectedBook = {
         ...selectedBook,
         shelf
@@ -70,9 +64,9 @@ class BooksApp extends React.Component {
         return book.id === selectedBook.id
       })
 
-      if (isHasBook) {
-        this.openModal(selectedBook, 'sameBook')
-      } else {
+      console.log('isHasBook = ', isHasBook)
+
+      if (!isHasBook) {
         this.setState({
           books: [
             ...this.state.books,
@@ -80,24 +74,24 @@ class BooksApp extends React.Component {
           ]
         })
       }
-    } else {
-      // change shelf
-      if (shelf === 'delete') {
-        this.openModal(selectedBook, 'deleteBook')
-      } else if (shelf !== selectedBook.shelf) {
-        const books = this.state.books.map((book) => {
-          if (book === selectedBook) {
-            return {
-              ...book,
-              shelf
-            }
+    }
+
+    // change shelf
+    if (shelf === 'delete') {
+      this.openModal(selectedBook, 'deleteBook')
+    } else if (shelf !== selectedBook.shelf) {
+      const books = this.state.books.map((book) => {
+        if (book.id === selectedBook.id) {
+          return {
+            ...book,
+            shelf
           }
+        }
 
-          return book
-        })
+        return book
+      })
 
-        this.setState({ books })
-      }
+      this.setState({ books })
     }
   }
 
@@ -118,7 +112,7 @@ class BooksApp extends React.Component {
 
   deleteBook = () => {
     this.setState((state) => ({
-      books: state.books.filter((b) => b !== state.currentBook),
+      books: state.books.filter((b) => b.id !== state.currentBook.id),
       modal: false,
       currentBook: {}
     }))
@@ -182,21 +176,6 @@ class BooksApp extends React.Component {
     this.setState({
       loading: false
     })
-  }
-
-  onScroll = () => {
-    // const itemsEle = document.getElementsByClassName("book")
-		// const winBottom = window.scrollY + window.innerHeight
-
-		// Add class when scroll to the top of the book
-		// for (let i = 0; i < itemsEle.length; i += 1) {
-		// 	const item = itemsEle[i]
-		// 	const offsetTop = item.offsetTop
-
-		// 	if (offsetTop < winBottom) {
-		// 		item.classList.add('active')
-		// 	}
-		// }
   }
 
   render() {
